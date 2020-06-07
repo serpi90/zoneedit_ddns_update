@@ -15,6 +15,8 @@ IP_CACHE_FILE="zoneedit_last_ip"
 # Sites used to obtain the current external ip
 IP_PROVIDERS=('icanhazip.com' 'wtfismyip.com/text' 'checkip.amazonaws.com' 'ipinfo.io/ip')
 
+if [ -f ./zoneedit-overrides ]; then source ./zoneedit-overrides; fi
+
 #Update IP address function, corrects settings on zoneedit.com
 function updateip ()
 {
@@ -27,7 +29,7 @@ function updateip ()
 
 #Determine the current real ip address for this machine use a random provider from the list above.
 IP_PROVIDER=${IP_PROVIDERS[$(( RANDOM % ${#IP_PROVIDERS[@]} ))]}
-IP_CURRENT=$(wget -O - -q $IP_PROVIDER)
+IP_CURRENT=$(wget -O - -q "$IP_PROVIDER")
 
 #Read in the current ip from currentip log file. Assign that value to a variable for comparison.
 IP_CACHE_PATH="${IP_CACHE_DIR}/${IP_CACHE_FILE}"
